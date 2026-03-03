@@ -50,8 +50,8 @@ namespace GameEngine
 
             shader = new Shader("shader.vert", "shader.frag");
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
+            GL.VertexAttribPointer(shader.GetAttribLocation("aPosition"), 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            GL.EnableVertexAttribArray(shader.GetAttribLocation("aPosition"));
 
         }
 

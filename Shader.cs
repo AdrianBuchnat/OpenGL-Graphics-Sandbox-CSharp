@@ -89,5 +89,10 @@ namespace GameEngine
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        public int GetAttribLocation(string attribName)
+        {
+            return GL.GetAttribLocation(Handle, attribName);
+        }
     }
 }
