@@ -11,12 +11,20 @@ namespace GameEngine
     {
         int VertexBufferObject;
         int VertexArrayObject;
+        int ElementBufferObject;
 
         float[] vertices =
         {
-            -0.5f, -0.5f, 0.0f,
+            0.5f, 0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f
+            -0.5f, -0.5f, 0.0f,
+            -0.5f, 0.5f, 0.0f
+        };
+
+        uint[] indices =
+        {
+            0, 1, 3,
+            1, 2, 3
         };
 
         Shader shader;
@@ -42,11 +50,15 @@ namespace GameEngine
             
             VertexBufferObject = GL.GenBuffer();
             VertexArrayObject = GL.GenVertexArray();
+            ElementBufferObject = GL.GenBuffer();
 
             GL.BindVertexArray(VertexArrayObject);
-
             GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBufferObject);
+
+            GL.BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+    
 
             shader = new Shader("shader.vert", "shader.frag");
 
@@ -63,7 +75,7 @@ namespace GameEngine
 
             shader.use();
             GL.BindVertexArray(VertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawElements(PrimitiveType.Triangles, indices.Length, DrawElementsType.UnsignedInt, 0);           
 
             SwapBuffers();
         }
